@@ -10,5 +10,6 @@ You should have received a copy of the GNU General Public License along with thi
 
 #pragma once
 #include <string>
+#include "utils.h"
 
-std::string GenPass(int length);
+std::string GenPass(int length, Vector2 mouse);

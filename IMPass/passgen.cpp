@@ -12,6 +12,8 @@ You should have received a copy of the GNU General Public License along with thi
 #include "uptime.h"
 #include <iostream>
 #include <chrono>
+#include "utils.h"
+#include "memory.h"
 
 long long int seed;
 std::string pass;
@@ -24,19 +26,19 @@ long long int timeSinceEpochNanosec() {
 	return duration_cast<nanoseconds>(system_clock::now().time_since_epoch()).count();
 }
 
-int CalcSeed()
+int CalcSeed(Vector2 mouse)
 {
-	seed = timeSinceEpochNanosec() - getUptime();
+	seed = timeSinceEpochNanosec() - getUptime() / (mouse.x + mouse.y) + getTotalSystemMemory();
 	std::cout << seed << std::endl;
 	return seed;
 }
 
-std::string GenPass(int length)
+std::string GenPass(int length, Vector2 mouse)
 {
 	pass = "";
 	for (int i = 0; i < length; i++)
 	{
-		srand(CalcSeed());
+		srand(CalcSeed(mouse));
 		pass = pass + charArray[rand() % arrSize];
 	}
 	return pass;

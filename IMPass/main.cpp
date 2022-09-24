@@ -11,6 +11,7 @@ You should have received a copy of the GNU General Public License along with thi
 #include <iostream>
 #include "passgen.h"
 #include "main.h"
+#include "utils.h"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
@@ -25,13 +26,6 @@ You should have received a copy of the GNU General Public License along with thi
 #pragma comment(lib, "legacy_stdio_definitions")
 #endif
 
-#ifdef _WIN32
-#define clear system("cls");
-#elif defined __unix__
-#define clear system("clear");
-#elif defined __APPLE__
-#define clear system("clear");
-#endif
 
 static void glfw_error_callback(int error, const char* description)
 {
@@ -43,6 +37,7 @@ int main()
 {
     // variables
     char passbuf[1024] = "";
+    Vector2 mouse;
     // Setup window
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
@@ -79,6 +74,8 @@ int main()
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
+
+
         // Gui stuff
         if (show_main_window)
         {
@@ -87,8 +84,10 @@ int main()
             ImGui::InputInt("length", &length);
             if (ImGui::Button("Generate"))
             {
+                mouse.x = ImGui::GetMousePos().x;
+                mouse.y = ImGui::GetMousePos().y;
                 std::string pass;
-                pass = GenPass(length);
+                pass = GenPass(length, mouse);
                 strcpy(passbuf, pass.c_str());
             }
             ImGui::Text("Password:");
