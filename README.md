@@ -1,6 +1,6 @@
 # IMPass
 
-Password manager made with Dear ImGui
+WIP Password manager made with Dear ImGui
 
 
 ## Acknowledgements
